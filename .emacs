@@ -20,6 +20,10 @@
    (quote
 	(typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree))))
 
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -41,9 +45,13 @@
 (require 'linum)
 (global-linum-mode)
 
+
+;; 한글입력 관련
+(set-language-environment "Korean")
+(setq default-korean-keyboard "3")
 (setq default-input-method "korean-hangul390")
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
-(global-set-key (kbd "<kana>") 'toggle-input-method) ;; 한영키
+(global-set-key (kbd "<kana>") 'toggle-input-method)
 
 
 ;disable backup
@@ -59,6 +67,12 @@
 
 (require 'ido)
 (ido-mode t)
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 
 (use-package treemacs
@@ -145,7 +159,13 @@
   :after treemacs magit
   :ensure t)
 
-
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+;; optionally if you want to use debugger
+(use-package dap-mode)
 
 (setq lsp-gopls-staticcheck t)
 (setq lsp-eldoc-render-all t)
