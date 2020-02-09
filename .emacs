@@ -46,8 +46,10 @@
 (global-linum-mode)
 
 
-;; 한글입력 관련
+;; 
 (set-language-environment "Korean")
+(prefer-coding-system 'utf-8)
+;; (set-language-environment "UTF-8")
 (setq default-korean-keyboard "3")
 (setq default-input-method "korean-hangul390")
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
