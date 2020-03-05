@@ -203,8 +203,10 @@
   :ensure t
   :config
   ;; Optionally enable completion-as-you-type behavior.
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1))
+  ;; (setq company-idle-delay 100)
+  (setq company-minimum-prefix-length 3))
+
+(global-set-key [C-tab] 'company-complete)
 
 ;; company-lsp integrates company mode completion with lsp-mode.
 ;; completion-at-point also works out of the box but doesn't support snippets.
@@ -252,6 +254,12 @@
 (use-package lsp-mode
   :hook (typescript-mode . lsp)
   :commands lsp)
+(setq typescript-indent-level 2)
+
+(use-package lsp-mode
+  :hook (scss-mode . lsp)
+  :commands lsp)
+(setq scss-indent-level 2)
 
 (setq compilation-window-height 14)
 (defun my-compilation-hook ()
@@ -267,3 +275,10 @@
 
 (global-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 (setq compilation-scroll-output t)
+
+
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
