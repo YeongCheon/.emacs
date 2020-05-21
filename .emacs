@@ -18,7 +18,7 @@
  '(custom-enabled-themes (quote (misterioso)))
  '(package-selected-packages
    (quote
-	(editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree))))
+	(wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree))))
 
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -69,8 +69,34 @@
 ;; set current buffer's tab char's display width to 4 spaces
 (setq tab-width 4)
 
-(require 'ido)
-(ido-mode t)
+(require 'which-key)
+(which-key-mode)
+
+(require 'wgrep)
+
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+;; enable this if you want `swiper' to use it
+;; (setq search-default-mode #'char-fold-to-regexp)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-S-s") 'swiper-all)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
@@ -240,7 +266,9 @@
            "go build -v && go test -v && go vet"))
   ;  Godef jump key binding
   (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "M-*") 'pop-tag-mark))
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+  (local-set-key (kbd "<f8>") 'dap-breakpoint-toggle)
+)
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
 ;; (use-package go-mode
@@ -334,3 +362,6 @@
   (define-key org-mode-map (kbd "C-*") 'my/insert-zero-width-space)
   ;; 해당 문자를 스페이스와 같은 취급을 하도록 설정을 바꿔줍니다.
   (setq org-emphasis-regexp-components '(" \t('\"{\x200B" "- \t.,:!?;'\")}\\[\x200B" " \t\r\n,\"'" "." 1)))
+
+
+
