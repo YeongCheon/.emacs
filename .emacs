@@ -207,11 +207,9 @@
 )
 
 
-(setq lsp-gopls-staticcheck t)
-(setq lsp-eldoc-render-all t)
-(setq lsp-gopls-complete-unimported t)
-
-
+;; (setq lsp-gopls-staticcheck t)
+;; (setq lsp-eldoc-render-all t)
+;; (setq lsp-gopls-complete-unimported t)
 
 
 (use-package lsp-mode
@@ -225,7 +223,8 @@
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
+)
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 ;; Optional - provides fancier overlays.
