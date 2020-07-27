@@ -264,28 +264,11 @@
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet"))
   ;  Godef jump key binding
-  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-.") 'lsp-find-definition)
   (local-set-key (kbd "M-*") 'pop-tag-mark)
   (local-set-key (kbd "<f8>") 'dap-breakpoint-toggle)
 )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
-
-;; (use-package go-mode
-;; :defer t
-;; :ensure t
-;; :mode ("\\.go\\'" . go-mode)
-;; :init
-;;   (setq compile-command "echo Building... && go build -v && echo Testing... && go test -v && echo Linter... && golint")  
-;;   (setq compilation-read-command nil)
-;; :bind (("M-," . compile)
-;; ("M-." . godef-jump)))
-
-;; (use-package lsp-mode
-;;   :hook (go-mode . lsp)
-;;   :commands lsp
-;;   :bind (("M-," . compile)
-;; 		 ("M-." . godef-jump))
-;;   )
 
 (use-package lsp-mode
   :hook (typescript-mode . lsp)
@@ -341,6 +324,31 @@
          (kill-buffer dap-ui--locals-buffer))))
 
 (add-hook 'dap-terminated-hook 'my/hide-debug-windows)
+
+
+
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+
 
 
 
