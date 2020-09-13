@@ -211,6 +211,8 @@
 ;; (setq lsp-eldoc-render-all t)
 ;; (setq lsp-gopls-complete-unimported t)
 
+(require 'lsp-mode)
+(define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
 
 (use-package lsp-mode
   :ensure t
@@ -348,8 +350,6 @@
 
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
-
-
 ;; https://stackoverflow.com/questions/9656311/conflict-resolution-with-emacs-ediff-how-can-i-take-the-changes-of-both-version/29757750#29757750
 (defun ediff-copy-both-to-C ()
   (interactive)
@@ -359,7 +359,6 @@
                     (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
-
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
@@ -377,6 +376,3 @@
   (define-key org-mode-map (kbd "C-*") 'my/insert-zero-width-space)
   ;; 해당 문자를 스페이스와 같은 취급을 하도록 설정을 바꿔줍니다.
   (setq org-emphasis-regexp-components '(" \t('\"{\x200B" "- \t.,:!?;'\")}\\[\x200B" " \t\r\n,\"'" "." 1)))
-
-
-
