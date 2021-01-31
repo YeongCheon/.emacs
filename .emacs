@@ -15,17 +15,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (misterioso)))
+ '(custom-enabled-themes '(misterioso))
  '(package-selected-packages
-   (quote
-	(wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree))))
-
-(require 'iedit)
+   '(ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
 
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
+(require 'iedit)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -48,7 +46,7 @@
 (require 'linum)
 (global-linum-mode)
 
-(editorconfig-mode 1)
+;; (editorconfig-mode 1)
 
 ;; 
 (set-language-environment "Korean")
@@ -199,6 +197,8 @@
 ;; optionally if you want to use debugger
 (use-package dap-mode)
 
+(lsp-treemacs-sync-mode 1)
+
 (use-package dap-mode
   :ensure t :after lsp-mode
   :config
@@ -222,14 +222,6 @@
   :hook (go-mode . lsp-deferred))
 
 (require 'dap-go)
-
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
-)
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
@@ -271,6 +263,8 @@
   (local-set-key (kbd "M-.") 'lsp-find-definition)
   (local-set-key (kbd "M-*") 'pop-tag-mark)
   (local-set-key (kbd "<f8>") 'dap-breakpoint-toggle)
+  (add-hook 'before-save-hook 'lsp-format-buffer t t)
+  ;; (add-hook 'before-save-hook #'lsp-organize-imports t t)
 )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
@@ -332,25 +326,26 @@
 
 
 
-(defun setup-tide-mode ()
+(defun setup-typescript-mode ()
   (interactive)
-  (tide-setup)
+  ;; (tide-setup)
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+  (local-set-key (kbd "<f8>") 'dap-breakpoint-toggle)
+  (add-hook 'before-save-hook 'lsp-eslint-fix-all)
+  ;; (tide-hl-identifier-mode +1)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
-  (company-mode +1))
+  (company-mode +1)
+  )
+
+(add-hook 'typescript-mode-hook #'setup-typescript-mode)
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
-
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
-
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 ;; https://stackoverflow.com/questions/9656311/conflict-resolution-with-emacs-ediff-how-can-i-take-the-changes-of-both-version/29757750#29757750
 (defun ediff-copy-both-to-C ()
@@ -378,3 +373,10 @@
   (define-key org-mode-map (kbd "C-*") 'my/insert-zero-width-space)
   ;; 해당 문자를 스페이스와 같은 취급을 하도록 설정을 바꿔줍니다.
   (setq org-emphasis-regexp-components '(" \t('\"{\x200B" "- \t.,:!?;'\")}\\[\x200B" " \t\r\n,\"'" "." 1)))
+
+
+;; (eval-after-load "org"
+;;   '(require 'ox-md nil t))
+
+(eval-after-load "org"
+  '(require 'ox-gfm nil t))
