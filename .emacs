@@ -380,3 +380,13 @@
 
 (eval-after-load "org"
   '(require 'ox-gfm nil t))
+
+(editorconfig-mode 1)
+
+(setq
+ org-adapt-indentation nil
+ org-src-fontify-natively t
+ org-src-window-setup 'current-window
+ org-src-preserve-indentation nil
+ org-edit-src-content-indentation 0
+ org-src-tab-acts-natively t)
