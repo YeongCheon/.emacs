@@ -390,3 +390,5 @@
  org-src-preserve-indentation nil
  org-edit-src-content-indentation 0
  org-src-tab-acts-natively t)
+
+(show-paren-mode 1)
