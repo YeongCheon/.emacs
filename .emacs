@@ -362,19 +362,6 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
-(use-package org
-  :config
-  ;; org-mode는 기본적으로 강조문(굵게, 이탤릭 등)을 하나의 단어에 대해서만 적용하도록 하고 있습니다. 예컨대 *이렇게*는 굵게 글씨를 쓸 수 없습니다. 조사가 들어가는 한중일 언어에 쓰기에는 부적절한 정책이며, 이를 부분적으로 구현하기 위해, 유니코드 문자 중에 '보이지 않는 스페이스'를 사용하여 편법으로 부분 강조를 가능하게 합니다.
-  ;; 참고: https://emacs.stackexchange.com/questions/18499/mark-up-only-part-of-a-word/18511
-  (defun my/insert-zero-width-space ()
-    (interactive)
-    (insert-char #x200b))
-  ;; Ctrl + * 를 누르면 강조문자 앞뒤에 해당 문자를 넣을 수 있습니다.
-  (define-key org-mode-map (kbd "C-*") 'my/insert-zero-width-space)
-  ;; 해당 문자를 스페이스와 같은 취급을 하도록 설정을 바꿔줍니다.
-  (setq org-emphasis-regexp-components '(" \t('\"{\x200B" "- \t.,:!?;'\")}\\[\x200B" " \t\r\n,\"'" "." 1)))
-
-
 ;; (eval-after-load "org"
 ;;   '(require 'ox-md nil t))
 
@@ -392,3 +379,19 @@
  org-src-tab-acts-natively t)
 
 (show-paren-mode 1)
+
+(setq lsp-clients-angular-language-server-command
+  '("node"
+    "/usr/local/lib/node_modules/@angular/language-server"
+    "--ngProbeLocations"
+    "/usr/local/lib/node_modules"
+    "--tsProbeLocations"
+    "/usr/local/lib/node_modules"
+    "--stdio"))
+
+
+(setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
+(setcar (nthcdr 1 org-emphasis-regexp-components) "[:alpha:]- \t.,:!?;'\")}\\")
+(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
+(add-to-list 'lsp-disabled-clients '(typescript-mode . angular-ls)) 
