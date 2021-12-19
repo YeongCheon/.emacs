@@ -16,8 +16,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(misterioso))
+ '(org-agenda-files nil)
  '(package-selected-packages
-   '(ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
+   '(org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
 
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -270,6 +271,7 @@
 
 (use-package lsp-mode
   :hook (typescript-mode . lsp)
+  (web-mode . lsp)
   :commands lsp)
 (setq typescript-indent-level 2)
 
@@ -324,22 +326,23 @@
 (add-hook 'dap-terminated-hook 'my/hide-debug-windows)
 
 
-
-
+(setenv "NODE_PATH" "/usr/local/lib/node_modules")
 (defun setup-typescript-mode ()
   (interactive)
   ;; (tide-setup)
+  ;; (setq lsp-disabled-clients '(angular-ls))
   (flycheck-mode +1)
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (local-set-key (kbd "M-*") 'pop-tag-mark)
   (local-set-key (kbd "<f8>") 'dap-breakpoint-toggle)
-  (add-hook 'before-save-hook 'lsp-eslint-fix-all)
+  (add-hook 'before-save-hook 'lsp-format-buffer)
   ;; (tide-hl-identifier-mode +1)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
   (company-mode +1)
+  (prettier-mode +1)
   )
 
 (add-hook 'typescript-mode-hook #'setup-typescript-mode)
@@ -362,23 +365,21 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
-;; (eval-after-load "org"
-;;   '(require 'ox-md nil t))
-
-(eval-after-load "org"
-  '(require 'ox-gfm nil t))
+(put 'set-goal-column 'disabled nil)
 
 (editorconfig-mode 1)
 
-(setq
- org-adapt-indentation nil
- org-src-fontify-natively t
- org-src-window-setup 'current-window
- org-src-preserve-indentation nil
- org-edit-src-content-indentation 0
- org-src-tab-acts-natively t)
-
 (show-paren-mode 1)
+
+
+(defun my-hide-compilation-buffer (proc)
+  "Hide the compile buffer `PROC' is ignored."
+  (let* ((window (get-buffer-window "*compilation*"))
+         (frame (window-frame window)))
+    (ignore-errors
+      (delete-window window))))
+
+(add-hook 'compilation-start-hook 'my-hide-compilation-buffer)
 
 (setq lsp-clients-angular-language-server-command
   '("node"
@@ -389,9 +390,85 @@
     "/usr/local/lib/node_modules"
     "--stdio"))
 
+(add-to-list 'lsp-disabled-clients '(typescript-mode . angular-ls))
 
-(setcar org-emphasis-regexp-components " \t('\"{[:alpha:]")
-(setcar (nthcdr 1 org-emphasis-regexp-components) "[:alpha:]- \t.,:!?;'\")}\\")
+;;; ricing-org-mode start
+;;; https://lucidmanager.org/productivity/ricing-org-mode/
+(use-package org
+  :ensure t
+  :init
+  (add-hook 'org-mode-hook
+			(lambda ()
+			  (setq line-spacing 6))))
+
+(setq
+	 org-adapt-indentation nil
+	 org-src-fontify-natively t
+	 org-src-window-setup 'current-window
+	 org-src-preserve-indentation nil
+	 org-edit-src-content-indentation 0
+	 org-src-tab-acts-natively t)
+
+(setcar org-emphasis-regexp-components " \t('\"{[:multibyte:]")
+(setcar (nthcdr 1 org-emphasis-regexp-components) "[:multibyte:]- \t.,:!?;'\")}\\")
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 
-(add-to-list 'lsp-disabled-clients '(typescript-mode . angular-ls)) 
+;; Set default, fixed and variabel pitch fonts
+;; Use M-x menu-set-font to view available fonts
+(use-package mixed-pitch
+  :hook
+  (org-mode . mixed-pitch-mode)
+  :config
+  (set-face-attribute 'default nil :font "D2Coding" :height 130)
+  (set-face-attribute 'fixed-pitch nil :font "D2Coding")
+  (set-face-attribute 'variable-pitch nil :font "D2Coding")
+  )
+
+;; Required for proportional font
+(use-package company-posframe
+  :config
+  (company-posframe-mode 1))
+
+;; Improve org mode looks
+(setq org-startup-indented t
+      org-pretty-entities t
+      org-hide-emphasis-markers t
+      org-startup-with-inline-images t
+      org-image-actual-width '(300))
+
+;; Show hidden emphasis markers
+(use-package org-appear
+  :hook (org-mode . org-appear-mode))
+
+;; Nice bullets
+(use-package org-superstar
+  :config
+  (setq org-superstar-special-todo-items t)
+  (add-hook 'org-mode-hook (lambda ()
+                             (org-superstar-mode 1))))
+
+;; Increase size of LaTeX fragment previews
+(plist-put org-format-latex-options :scale 2)
+
+;; Distraction-free screen
+(use-package olivetti
+  :init
+  (setq olivetti-body-width .67)
+  :config
+  (defun distraction-free ()
+    "Distraction-free writing environment"
+    (interactive)
+    (if (equal olivetti-mode nil)
+        (progn
+          (window-configuration-to-register 1)
+          (delete-other-windows)
+          (text-scale-increase 2)
+          (olivetti-mode t))
+      (progn
+        (jump-to-register 1)
+        (olivetti-mode 0)
+        (text-scale-decrease 2))))
+  :bind
+  (("<f9>" . distraction-free)))
+
+;;; ricing-org-mode end
