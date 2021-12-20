@@ -9,7 +9,6 @@
 
 (package-initialize)
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -19,12 +18,6 @@
  '(org-agenda-files nil)
  '(package-selected-packages
    '(org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
-
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-(require 'iedit)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -43,7 +36,6 @@
   (exec-path-from-shell-initialize))
 (exec-path-from-shell-copy-env "PATH")
 
-
 (require 'linum)
 (global-linum-mode)
 
@@ -58,7 +50,6 @@
 (global-set-key (kbd "S-SPC") 'toggle-input-method)
 (global-set-key (kbd "<kana>") 'toggle-input-method)
 
-
 ;disable backup
 (setq backup-inhibited t)
 ;disable auto save
@@ -70,40 +61,50 @@
 ;; set current buffer's tab char's display width to 4 spaces
 (setq tab-width 4)
 
-(require 'which-key)
-(which-key-mode)
+(use-package wgrep
+  :ensure t
+  )
 
-(require 'wgrep)
+(use-package iedit
+  :ensure t
+  )
 
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-;; enable this if you want `swiper' to use it
-;; (setq search-default-mode #'char-fold-to-regexp)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-S-s") 'swiper-all)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-(global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
-(global-set-key (kbd "<f1> l") 'counsel-find-library)
-(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-(global-set-key (kbd "C-c g") 'counsel-git)
-(global-set-key (kbd "C-c j") 'counsel-git-grep)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode)
 
-(require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  ;; enable this if you want `swiper' to use it
+  ;; (setq search-default-mode #'char-fold-to-regexp)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-S-s") 'swiper-all)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> o") 'counsel-describe-symbol)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package multiple-cursors
+  :init
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  )
 
 
 (use-package treemacs
@@ -177,6 +178,11 @@
   :after treemacs evil
   :ensure t)
 
+(use-package projectile
+  :ensure t
+  )
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
 (use-package treemacs-projectile
   :after treemacs projectile
   :ensure t)
@@ -209,20 +215,16 @@
   (tooltip-mode 1)
 )
 
-
-;; (setq lsp-gopls-staticcheck t)
-;; (setq lsp-eldoc-render-all t)
-;; (setq lsp-gopls-complete-unimported t)
-
-(require 'lsp-mode)
-(define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
+  :init
+  (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   :hook (go-mode . lsp-deferred))
 
-(require 'dap-go)
+(use-package dap-go
+  :ensure t
+  )
 
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
@@ -360,7 +362,10 @@
 (defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "d" 'ediff-copy-both-to-C))
 (add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 
-(require 'web-mode)
+(use-package web-mode
+  :ensure t
+  )
+
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
