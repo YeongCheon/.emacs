@@ -474,3 +474,16 @@
   (("<f9>" . distraction-free)))
 
 ;;; ricing-org-mode end
+
+;; emoji config start
+(use-package unicode-fonts
+   :ensure t
+   :config
+    (unicode-fonts-setup))
+(defun my-emoji-fonts ()
+  (set-fontset-font t 'symbol "Noto Color Emoji")
+  (set-fontset-font t 'symbol "Symbola" nil 'append))
+(if (daemonp)
+	(add-hook 'server-after-make-frame-hook #'my-emoji-fonts)
+  (my-emoji-fonts))
+;; emoji config end
