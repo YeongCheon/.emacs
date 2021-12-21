@@ -17,7 +17,7 @@
  '(custom-enabled-themes '(misterioso))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
+   '(dap-go org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -181,6 +181,7 @@
 (use-package projectile
   :ensure t
   )
+(projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (use-package treemacs-projectile
@@ -221,10 +222,6 @@
   :init
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
   :hook (go-mode . lsp-deferred))
-
-(use-package dap-go
-  :ensure t
-  )
 
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
