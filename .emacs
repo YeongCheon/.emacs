@@ -489,3 +489,12 @@
 	(add-hook 'server-after-make-frame-hook #'my-emoji-fonts)
   (my-emoji-fonts))
 ;; emoji config end
+
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode)
+  )
+
+(use-package protobuf-mode
+  :ensure t
+  )
