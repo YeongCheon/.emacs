@@ -342,9 +342,10 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1)
   (prettier-mode +1)
-  )
+)
 
 (add-hook 'typescript-mode-hook #'setup-typescript-mode)
+(add-hook 'typescript-mode-hook #'add-node-modules-path)
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
@@ -367,6 +368,7 @@
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   :hook
   (web-mode . prettier-js-mode)
+  (web-mode . add-node-modules-path)
   )
 
 (put 'set-goal-column 'disabled nil)
