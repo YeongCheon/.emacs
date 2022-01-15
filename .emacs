@@ -27,6 +27,7 @@
  '(default ((t (:family "D2Coding" :foundry "RIXF" :slant normal :weight normal :height 128 :width normal))))
  '(markdown-code-face ((t (:inherit consolas)))))
 (set-fontset-font t 'hangul (font-spec :family "D2Coding"))
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
@@ -474,16 +475,3 @@
   (("<f9>" . distraction-free)))
 
 ;;; ricing-org-mode end
-
-;; emoji config start
-(use-package unicode-fonts
-   :ensure t
-   :config
-    (unicode-fonts-setup))
-(defun my-emoji-fonts ()
-  (set-fontset-font t 'symbol "Noto Color Emoji")
-  (set-fontset-font t 'symbol "Symbola" nil 'append))
-(if (daemonp)
-	(add-hook 'server-after-make-frame-hook #'my-emoji-fonts)
-  (my-emoji-fonts))
-;; emoji config end
