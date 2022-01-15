@@ -343,9 +343,10 @@
   ;; `M-x package-install [ret] company`
   (company-mode +1)
   (prettier-mode +1)
-  )
+)
 
 (add-hook 'typescript-mode-hook #'setup-typescript-mode)
+(add-hook 'typescript-mode-hook #'add-node-modules-path)
 
 ;; aligns annotation to the right hand side
 (setq company-tooltip-align-annotations t)
@@ -362,11 +363,14 @@
 
 (use-package web-mode
   :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  :hook
+  (web-mode . prettier-js-mode)
+  (web-mode . add-node-modules-path)
   )
-
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 (put 'set-goal-column 'disabled nil)
 
@@ -475,3 +479,12 @@
   (("<f9>" . distraction-free)))
 
 ;;; ricing-org-mode end
+
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode)
+  )
+
+(use-package protobuf-mode
+  :ensure t
+  )
