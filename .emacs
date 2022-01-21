@@ -488,3 +488,7 @@
 (use-package protobuf-mode
   :ensure t
   )
+
+(use-package add-node-modules-path
+  :ensure t
+  )
