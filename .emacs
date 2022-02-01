@@ -17,7 +17,7 @@
  '(custom-enabled-themes '(misterioso))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(dap-go org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
+   '(rust-mode add-node-modules-path js2-mode dap-go org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -56,8 +56,9 @@
 ;disable auto save
 (setq auto-save-default nil)
 ;; make indentation commands use space only (never tab character)
-(setq indent-tabs-mode t)
+;; (setq indent-tabs-mode t)
 ;; set default tab char's display width to 4 spaces
+(setq-default indent-tabs-mode nil)
 (setq-default tab-width 4) ; emacs 23.1, 24.2, default to 8
 ;; set current buffer's tab char's display width to 4 spaces
 (setq tab-width 4)
@@ -113,7 +114,9 @@
   :defer t
   :init
   (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)
+	(define-key treemacs-mode-map (kbd "C-f") #'treemacs-toggle-node)
+	)
   :config
   (progn
     (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
@@ -173,7 +176,8 @@
         ("C-x t t"   . treemacs)
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+        ("C-x t M-t" . treemacs-find-tag))
+  )
 
 (use-package treemacs-evil
   :after treemacs evil
@@ -491,4 +495,13 @@
 
 (use-package add-node-modules-path
   :ensure t
+  )
+
+
+(use-package rust-mode
+  :ensure t
+  :config
+  (setq indent-tabs-mode nil)
+  (setq rust-indent-level 4)
+  (setq rust-format-on-save t)
   )
