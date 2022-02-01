@@ -253,7 +253,10 @@
 (use-package yasnippet
   :ensure t
   :commands yas-minor-mode
-  :hook (go-mode . yas-minor-mode))
+  :hook
+  (go-mode . yas-minor-mode)
+  (rust-mode . yas-minor-mode)
+  )
 
 (defun my-go-mode-hook ()
   ; Use goimports instead of go-fmt
@@ -500,6 +503,8 @@
 
 (use-package rust-mode
   :ensure t
+  :hook
+  (rust-mode . lsp)
   :config
   (setq indent-tabs-mode nil)
   (setq rust-indent-level 4)
