@@ -509,4 +509,5 @@
   (setq indent-tabs-mode nil)
   (setq rust-indent-level 4)
   (setq rust-format-on-save t)
+  (setq lsp-rust-analyzer-cargo-watch-command "clippy")
   )
