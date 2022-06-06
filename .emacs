@@ -239,7 +239,7 @@
   :config
   ;; Optionally enable completion-as-you-type behavior.
   ;; (setq company-idle-delay 100)
-  (setq company-minimum-prefix-length 3))
+  (setq company-minimum-prefix-length 2))
 
 (global-set-key [C-tab] 'company-complete)
 
