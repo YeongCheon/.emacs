@@ -330,7 +330,7 @@
     (and (get-buffer dap-ui--locals-buffer)
          (kill-buffer dap-ui--locals-buffer))))
 
-(add-hook 'dap-terminated-hook 'my/hide-debug-windows)
+;; (add-hook 'dap-terminated-hook 'my/hide-debug-windows)
 
 
 (setenv "NODE_PATH" "/usr/local/lib/node_modules")
