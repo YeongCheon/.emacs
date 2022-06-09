@@ -500,6 +500,10 @@
   :ensure t
   )
 
+(defun my-rust-mode-hook ()
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+)
+(add-hook 'rust-mode-hook 'my-rust-mode-hook)
 
 (use-package rust-mode
   :ensure t
