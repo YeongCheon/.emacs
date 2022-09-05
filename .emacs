@@ -524,6 +524,7 @@
   (setq lsp-rust-analyzer-display-parameter-hints t)
   (setq lsp-rust-analyzer-display-reborrow-hints nil)
 
+  ;; rust lsp-clients-extract-signature-on-hover
   (cl-defmethod lsp-clients-extract-signature-on-hover (contents (_server-id (eql rust-analyzer)))
   (-let* (((&hash "value") contents)
           (groups (--partition-by (s-blank? it) (s-lines (s-trim value))))
