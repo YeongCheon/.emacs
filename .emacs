@@ -17,7 +17,7 @@
  '(custom-enabled-themes '(misterioso))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(rust-mode add-node-modules-path js2-mode dap-go org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
+   '(prettier-mode fly-check rust-mode add-node-modules-path js2-mode dap-go org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -62,6 +62,14 @@
 (setq-default tab-width 4) ; emacs 23.1, 24.2, default to 8
 ;; set current buffer's tab char's display width to 4 spaces
 (setq tab-width 4)
+
+(use-package prettier
+  :ensure t
+  )
+
+(use-package flycheck
+  :ensure t
+  )
 
 (use-package wgrep
   :ensure t
@@ -205,7 +213,7 @@
 
 ;; optionally
 (use-package lsp-ui :commands lsp-ui-mode)
-(use-package company-lsp :commands company-lsp)
+;; (use-package company-lsp :commands company-lsp)
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 ;; optionally if you want to use debugger
@@ -243,12 +251,6 @@
   (setq company-minimum-prefix-length 2))
 
 (global-set-key [C-tab] 'company-complete)
-
-;; company-lsp integrates company mode completion with lsp-mode.
-;; completion-at-point also works out of the box but doesn't support snippets.
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp)
 
 ;; Optional - provides snippet support.
 (use-package yasnippet
@@ -334,7 +336,7 @@
 ;; (add-hook 'dap-terminated-hook 'my/hide-debug-windows)
 
 
-(setenv "NODE_PATH" "/usr/local/lib/node_modules")
+;; (setenv "NODE_PATH" "/usr/local/lib/node_modules")
 (defun setup-typescript-mode ()
   (interactive)
   ;; (tide-setup)
