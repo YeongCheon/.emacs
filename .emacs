@@ -67,6 +67,10 @@
   :ensure t
   )
 
+(use-package prettier-js
+  :ensure t
+  )
+
 (use-package flycheck
   :ensure t
   )
