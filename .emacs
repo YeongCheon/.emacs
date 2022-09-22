@@ -29,6 +29,10 @@
 (set-fontset-font t 'hangul (font-spec :family "D2Coding"))
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 
+(use-package exec-path-from-shell
+  :ensure t
+  )
+
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 (exec-path-from-shell-copy-env "GOPATH")
@@ -62,6 +66,10 @@
 (setq-default tab-width 4) ; emacs 23.1, 24.2, default to 8
 ;; set current buffer's tab char's display width to 4 spaces
 (setq tab-width 4)
+
+(use-package counsel
+  :ensure t
+  )
 
 (use-package prettier
   :ensure t
@@ -114,6 +122,7 @@
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
 (use-package multiple-cursors
+  :ensure t
   :init
   (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -221,7 +230,9 @@
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 ;; optionally if you want to use debugger
-(use-package dap-mode)
+(use-package dap-mode
+  :ensure t
+  )
 
 (lsp-treemacs-sync-mode 1)
 
@@ -448,6 +459,7 @@
 
 ;; Required for proportional font
 (use-package company-posframe
+  :ensure t
   :config
   (company-posframe-mode 1))
 
@@ -464,6 +476,7 @@
 
 ;; Nice bullets
 (use-package org-superstar
+  :ensure t
   :config
   (setq org-superstar-special-todo-items t)
   (add-hook 'org-mode-hook (lambda ()
