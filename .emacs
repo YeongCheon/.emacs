@@ -357,11 +357,11 @@
   ;; (tide-setup)
   ;; (setq lsp-disabled-clients '(angular-ls))
   (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  ;; (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (local-set-key (kbd "M-*") 'pop-tag-mark)
   (local-set-key (kbd "<f8>") 'dap-breakpoint-toggle)
-  (add-hook 'before-save-hook 'lsp-format-buffer)
+  ;; (add-hook 'before-save-hook 'lsp-format-buffer)
   ;; (tide-hl-identifier-mode +1)
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
@@ -389,7 +389,7 @@
 (use-package web-mode
   :ensure t
   :init
-  (setq web-mode-enable-auto-indentation nil)
+  ;; (setq web-mode-enable-auto-indentation nil)
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
