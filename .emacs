@@ -526,6 +526,11 @@
 )
 (add-hook 'rust-mode-hook 'my-rust-mode-hook)
 
+(use-package
+  rustic
+  :ensure t
+  )
+
 (use-package rust-mode
   :ensure t
   :hook
