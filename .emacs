@@ -523,6 +523,7 @@
 
 (defun my-rust-mode-hook ()
   (local-set-key (kbd "M-*") 'pop-tag-mark)
+  (add-hook 'before-save-hook 'lsp-format-buffer t t)
 )
 (add-hook 'rust-mode-hook 'my-rust-mode-hook)
 
