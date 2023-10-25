@@ -567,3 +567,7 @@
 
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 (setq gc-cons-threshold 100000000)
+
+
+(use-package magit-delta
+  :hook (magit-mode . magit-delta-mode))
