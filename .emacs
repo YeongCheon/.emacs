@@ -571,3 +571,7 @@
 
 (use-package magit-delta
   :hook (magit-mode . magit-delta-mode))
+
+(use-package lsp-tailwindcss
+  :ensure t
+  )
