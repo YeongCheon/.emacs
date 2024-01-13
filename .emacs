@@ -574,4 +574,7 @@
 
 (use-package lsp-tailwindcss
   :ensure t
+  :init
+  (setq lsp-tailwindcss-add-on-mode t)
+  (setq lsp-tailwindcss-major-modes '(web-mode html-mode css-mode typescript-tsx-mode tsx-ts-mode))
   )
