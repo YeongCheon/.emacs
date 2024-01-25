@@ -305,6 +305,11 @@
   :commands lsp)
 (setq scss-indent-level 2)
 
+(use-package lsp-mode
+  :hook (css-mode . lsp)
+  :commands lsp)
+(setq css-indent-level 2)
+
 (setq compilation-window-height 14)
 (defun my-compilation-hook ()
   (when (not (get-buffer-window "*compilation*"))
