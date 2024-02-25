@@ -17,14 +17,22 @@
  '(custom-enabled-themes '(misterioso))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(prettier-mode fly-check rust-mode add-node-modules-path js2-mode dap-go org-appear mixed-pitch company-posframe org-superstar prettier ox-gfm iedit kotlin-mode wgrep which-key counsel projectile-ripgrep editorconfig protobuf-mode typescript-mode lsp-java lsp-mode yasnippet treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil dap-mode helm-lsp lsp-treemacs company-lsp flycheck lsp-ui treemacs company flymake-go markdown-mode restclient tide multiple-cursors yaml-mode magit flycheck-golangci-lint go-rename exec-path-from-shell web-mode company-go go-mode projectile neotree)))
+   '(add-node-modules-path company-posframe counsel dap-mode
+                           exec-path-from-shell flycheck iedit
+                           js2-mode lsp-tailwindcss lsp-ui
+                           multiple-cursors org-superstar prettier
+                           prettier-js protobuf-mode rustic
+                           treemacs-evil treemacs-icons-dired
+                           treemacs-magit treemacs-projectile
+                           typescript-mode web-mode wgrep which-key
+                           yasnippet)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "D2Coding" :foundry "RIXF" :slant normal :weight normal :height 128 :width normal))))
+ '(default ((t (:family "D2Coding" :foundry "RIXF" :slant normal :weight regular :height 120 :width normal))))
  '(markdown-code-face ((t (:inherit consolas)))))
 (set-fontset-font t 'hangul (font-spec :family "D2Coding"))
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
@@ -250,7 +258,13 @@
   :commands (lsp lsp-deferred)
   :init
   (define-key lsp-mode-map (kbd "C-c l") lsp-command-map)
-  :hook (go-mode . lsp-deferred))
+  :hook
+  (go-mode . lsp-deferred)
+  (typescript-mode . lsp-deferred)
+  (web-mode . lsp-deferred)
+  (scss-mode . lsp-deferred)
+  (css-mode . lsp-deferred)
+  )
 
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
@@ -294,20 +308,9 @@
 )
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
-(use-package lsp-mode
-  :hook (typescript-mode . lsp)
-  (web-mode . lsp)
-  :commands lsp)
+
 (setq typescript-indent-level 2)
-
-(use-package lsp-mode
-  :hook (scss-mode . lsp)
-  :commands lsp)
 (setq scss-indent-level 2)
-
-(use-package lsp-mode
-  :hook (css-mode . lsp)
-  :commands lsp)
 (setq css-indent-level 2)
 
 (setq compilation-window-height 14)
@@ -419,16 +422,16 @@
 
 (add-hook 'compilation-start-hook 'my-hide-compilation-buffer)
 
-(setq lsp-clients-angular-language-server-command
-  '("node"
-    "/usr/local/lib/node_modules/@angular/language-server"
-    "--ngProbeLocations"
-    "/usr/local/lib/node_modules"
-    "--tsProbeLocations"
-    "/usr/local/lib/node_modules"
-    "--stdio"))
+;; (setq lsp-clients-angular-language-server-command
+;;   '("node"
+;;     "/usr/local/lib/node_modules/@angular/language-server"
+;;     "--ngProbeLocations"
+;;     "/usr/local/lib/node_modules"
+;;     "--tsProbeLocations"
+;;     "/usr/local/lib/node_modules"
+;;     "--stdio"))
 
-(add-to-list 'lsp-disabled-clients '(typescript-mode . angular-ls))
+;; (add-to-list 'lsp-disabled-clients '(typescript-mode . angular-ls))
 
 ;;; ricing-org-mode start
 ;;; https://lucidmanager.org/productivity/ricing-org-mode/
